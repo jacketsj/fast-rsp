@@ -1,10 +1,112 @@
 \section{Introduction}
 
+Let $G=(V,E)$ be a graph.
+Let $c\in(0,\frac12)$.
+Define a $c$-balanced vertex separator to be a partition
+of the vertices $V$ into two disjoint subsets $(A,B)$,
+and a vertex cover $X$ of the edges $E(A,B)$,
+so that $\min\{|A|,|B|\}\geq cn$.
+The \emph{size} of vertex separator is
+$|X|$.
+
+We define the following optimization problem:
+
 \begin{equation*}
 \everymath{\displaystyle}
 \begin{array}{r c c r c l l}
-\gamma^{(d)}(G) & := & \min_{\substack{f:V\to\RR^d\\y:V\to\RR_{\geq0}}} & \frac{\sum_{v\in V}y(v)}{\sum_{x\in V}||f(x)||_2^2} \\
+\gamma_\xi^{(d)}(G) & := & \min_{\substack{f:V\to\RR^d\\y:V\to\RR_{\geq0}\\z:V\to\RR_{\geq0}}} & \sum_{v\in V}y(v) & + & \sum_{v\in V}||f(v)||^2\cdot z(v)\\
 && \textup{subject to} & \sum_{v\in V} f(v) & = & \overline{0}\\
-&& & y(u)+y(v) & \geq & ||f(u)-f(v)||_2^2 & \forall uv\in E
+&& & \sum_{x\in V}||f(x)||_2^2 & = & 1\\
+&& & y(u)+y(v) & \geq & ||f(u)-f(v)||_2^2 & \forall uv\in E\\
+&& & ||f(v)||_2^2 & \leq & \frac \xi n+z(v) & \forall v\in V
 \end{array}
 \end{equation*}
+
+\todo[inline]{Define $\xi>1$ so that this is a relaxation.}
+
+\todo[inline]{Prove that $\gamma_{\xi}^{(n)}$ is a relaxation.}
+
+Note that $\gamma_\xi^{(d)}$ can be decomposed
+into an outer minimization over $f:V\to\RR^d$, and an inner minimization over $y,z:V\to\RR_{\geq0}$.
+By taking the dual of the inner linear program, we obtain the following form:
+\begin{equation*}
+\everymath{\displaystyle}
+\begin{array}{r c c r c l l}
+  \gamma_\xi^{(d)}(G) & = & \min_{f:V\to\RR^d}\;\max_{\substack{w:E\to\RR_{\geq0}\\b:V\to\RR_{\geq0}}} &
+  \multicolumn{4}{c}{\sum_{uv\in E}w(uv)\cdot||f(u)-f(v)||^2 + \sum_{v\in V}b(v)\cdot(||f(v)||^2-1)}\\
+&& \textup{subject to} & \sum_{v\in V} f(v) & = & \overline{0}\\
+&& & \sum_{x\in V}||f(x)||_2^2 & = & 1\\
+&& & \sum_{u:uv\in E} w(uv) & \leq & 1 & \forall v\in V\\
+&& & b(v) & \leq & ||f(v)||_2^2 & \forall v\in V
+\end{array}
+\end{equation*}
+
+When $d=n$, this can also be expressed with a positive semidefinite matrix:
+\begin{equation*}
+\everymath{\displaystyle}
+\begin{array}{r c c r c l l}
+  \gamma_\xi^{(n)}(G) & = & \min_{X\in\RR^{n\times n}}\;\max_{\substack{w:E\to\RR_{\geq0}\\b:V\to\RR_{\geq0}}} &
+  \multicolumn{4}{c}{\sum_{uv\in E}w(uv)\cdot(X_{uu}+X_{vv}-X_{uv}-X_{vu}) + \sum_{v\in V}b(v)\cdot(X_{vv}-1)}\\
+&& \textup{subject to} & X^T\overline{1} & = & \overline{0}\\
+&& & \text{Tr}(X) & = & 1\\
+&& & \sum_{u:uv\in E} w(uv) & \leq & 1 & \forall v\in V\\
+&& & b(v) & \leq & X_{vv} & \forall v\in V\\
+&& & X & \succeq & 0
+\end{array}
+\end{equation*}
+
+Note that, if $X=F^TF$,
+where the columns of $F$ are values $f(v)$,
+then
+$X^T\overline1=
+(F^TF)^T\overline1=
+(F^TF)\overline1$,
+so
+$1^TX^T\overline1=\overline1^T(F^TF)\overline1$.
+If $X^T\overline1=\overline0$,
+then
+$0=(F\overline1)^T(F\overline1)=\sum_{i\in[n]}\left\|\sum_{v\in V}f(v)_i\right\|$,
+so $\sum_{v\in V}f(v)=\overline0$.
+If instead $\sum_{v\in V}f(v)=\overline0$ (that is, $F\overline1=\overline0$),
+then $X^T\overline1=F^TF\overline1=\overline0$.
+Therefore, the conditions
+$X^T\overline1=\overline0$ and $\sum_{v\in V}f(v)=\overline0$ are equivalent.
+Let $\Omega\subset\RR^{n\times n}$
+be the set of matrices $X$
+satisfying the constraints.
+
+In this form, we can apply some known results from online learning.
+In online learning, the problem is used in a \emph{game} played across $T$ rounds.
+In the $t$th round:
+\begin{itemize}
+  \item A player selects a matrix $X_t\in\Omega$.
+  \item A perfect adversary selects weights $w_t:E\to\RR_{\geq0}$
+    and $b_t:V\to\RR_{\geq0}$
+    satisfying the remaining constraints
+    that maximizes the inner objective function.
+  \item The player takes \defn{loss} equal to the objective function value,
+    but can use $w_t$ and $b_t$ to help choose their matrix in the next round.
+\end{itemize}
+
+The player aims to minimize their \defn{regret} over all $T$ rounds.
+That is, the total loss they took compared to the best fixed choice of $X$.
+
+There is a well-known algorithm that obtains a good bound on the regret.
+The following is a special case of online mirror descent,
+and can be considered a very slight variant of the Matrix Multiplicative Weight-Udpate (MMWU)
+algorithm used by Arora and Kale~\cite{arora2007combinatorial,arora2016combinatorial,kale2007efficient}:
+
+\todo[inline]{Write out MMWU variant.}
+
+Note that the only difference here compared Arora and Kale's MMWU algorithm
+is that we initialize with $X_0:=\frac1{n-1}(I-\frac1n\overline1{\overline 1}^T)$,
+so that we start by satisfying the constraints $X^T\overline1=\overline0$
+and $\text{Tr}(X)=1$.
+\todo{Prove this.}
+In the above algorithm,
+this constraint will also always continue to be satisfied.
+\todo{Prove this too.}
+This variant was also employed by Lau, Tung, and Wang~\cite{lau2024fast}.
+
+The regret bound for the algorithm is as follows:
+\todo[inline]{Add the regret bound here.}
