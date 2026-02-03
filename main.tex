@@ -1,0 +1,129 @@
+\documentclass[11pt,letterpaper]{article}
+%\documentclass[11pt,letterpaper,anonymous]{article}
+
+\makeatletter
+\newif\ifanonymous
+\@ifclasswith{article}{anonymous}{\anonymoustrue}{\anonymousfalse}
+\makeatother
+
+
+\usepackage[letterpaper,margin=1.0in]{geometry}
+\usepackage{color,latexsym,amsmath,amssymb}
+\usepackage{fancyhdr}
+%\usepackage[disable]{todonotes}
+\usepackage{todonotes}
+\usepackage{amsthm}
+\usepackage{svg}
+\usepackage{changepage}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[colorlinks]{hyperref}
+\usepackage[nameinlink,capitalize,noabbrev]{cleveref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage[thinlines]{easytable}
+\usepackage{makecell}
+\usepackage{orcidlink}
+\usepackage{authblk}
+\usepackage{fontawesome5} % email icon
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usetikzlibrary{calc}
+
+\newcommand{\emaillink}[1]{\href{mailto:#1}{\raisebox{0.05em}{\textcolor{gray}{\fontsize{9}{12}\sffamily\bfseries\faIcon[regular]{envelope}}}}}
+
+%\hypersetup{
+%	breaklinks=true,
+%	pdfencoding=unicode,
+%	bookmarksnumbered,
+%	pdfborder={0 0 0},
+%	pdfauthor={ }
+%}%
+
+\usetikzlibrary{matrix,arrows.meta,positioning}
+
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+%\fancyhead[L]{}
+%\fancyhead[R]{}
+%\fancyhead[C]{\leftmark}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.95}
+\lstdefinestyle{overleafstyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\defn}[1]{\textbf{#1}}
+\newcommand{\con}{\text{con}}
+\newcommand{\dist}{\text{dist}}
+\newcommand{\distnorm}{\text{distnorm}}
+\DeclareMathOperator{\EX}{\mathbb{E}}
+\DeclareMathOperator{\OO}{\mathcal{O}}
+\DeclareMathOperator{\oo}{o}
+\newcommand{\rig}{\text{rig}}
+\newcommand{\emb}{\text{emb}}
+\newcommand{\semb}{\mathcal{S}}
+\newcommand{\remove}[1]{}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+
+\title{Fast Reweighted Spectral Partitioning: Vertex Separators in Near-Linear Time}
+\ifanonymous
+    \author{Anonymous author(s)}
+\else
+    \author{Jack Spalding-Jamieson\,\orcidlink{0000-0002-1209-4345}\,\emaillink{jacksj@uwaterloo.ca}}
+\fi
+
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\input{abstract.tex}
+
+\input{intro.tex}
+
+\bibliographystyle{alpha}
+\bibliography{citations}
+
+\pagebreak
+\appendix
+
+\end{document}
