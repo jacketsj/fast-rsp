@@ -83,7 +83,10 @@ In the $t$th round:
   \item An adversary selects weights $w_t:E\to\RR_{\geq0}$
     and $b_t:V\to\RR_{\geq0}$
     satisfying the remaining constraints
-    that (approximately) maximizes the inner objective function.
+    that maximizes some objective function
+    (for our purposes, we can think of this objective function as approximating the
+    original inner objective function).
+    %the inner objective function.
   \item The player takes \defn{loss} equal to the objective function value,
     but can use $w_t$ and $b_t$ to help choose their matrix in the next round.
 \end{itemize}
