@@ -80,10 +80,10 @@ In online learning, the problem is used in a \emph{game} played across $T$ round
 In the $t$th round:
 \begin{itemize}
   \item A player selects a matrix $X_t\in\Omega$.
-  \item A perfect adversary selects weights $w_t:E\to\RR_{\geq0}$
+  \item An adversary selects weights $w_t:E\to\RR_{\geq0}$
     and $b_t:V\to\RR_{\geq0}$
     satisfying the remaining constraints
-    that maximizes the inner objective function.
+    that (approximately) maximizes the inner objective function.
   \item The player takes \defn{loss} equal to the objective function value,
     but can use $w_t$ and $b_t$ to help choose their matrix in the next round.
 \end{itemize}
